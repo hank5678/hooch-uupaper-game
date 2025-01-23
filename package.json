@@ -1,0 +1,24 @@
+{
+  "name": "hooch-uupaper-game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "publish": "npm run build && surge dist hoochuu-paper-game.surge.sh"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "@types/toastify-js": "^1.12.3",
+    "surge": "^0.24.6",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "nipplejs": "^0.10.2",
+    "three": "^0.170.0",
+    "toastify-js": "^1.12.0"
+  }
+}
