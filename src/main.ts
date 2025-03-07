@@ -18,7 +18,8 @@ console.log(`Touch supported: ${isTouchDevice}`);
 let scene: THREE.Scene;
 let camera: THREE.PerspectiveCamera;
 let renderer: THREE.WebGLRenderer;
-let character: THREE.Mesh<THREE.BoxGeometry, THREE.Material[]>;
+// let character: THREE.Mesh<THREE.BoxGeometry, THREE.Material[]>;
+let character: THREE.Group;
 let clock: THREE.Clock;
 let keys: Record<string, boolean> = {};
 let obstacles: THREE.Mesh<THREE.BoxGeometry, THREE.Material>[] = [];
@@ -61,7 +62,7 @@ function initializeFbx() {
 
   const loader = new FBXLoader();
   loader.load(
-    "/test3.fbx", // 替換為您的模型路徑
+    "/bg.fbx", // 替換為您的模型路徑
     (fbx) => {
       // 設置模型大小和位置
       fbx.scale.set(0.5, 0.5, 0.5); // 調整縮放（視模型而定）
@@ -132,19 +133,40 @@ function initializeGround() {
 }
 
 function initializeCharacter() {
-  const characterGeometry = new THREE.BoxGeometry(1, 2, 1);
-  const characterMaterials = [
-    new THREE.MeshBasicMaterial({ color: 0x00ffff }),
-    new THREE.MeshBasicMaterial({ color: 0x00ffff }),
-    new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-    new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 }),
-    new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-  ];
+  const loader = new FBXLoader();
+  loader.load(
+    "/man.fbx", // 替換為您的模型路徑
+    (fbx) => {
+      // 設置模型大小和位置
+      fbx.scale.set(0.017, 0.017, 0.017); // 調整縮放（視模型而定）
+      fbx.position.set(0, 4.5, 0); // 起始位置
+      // 將模型添加到場景
+      character = fbx;
+      scene.add(character);
+    },
+    (xhr) => {
+      // 加載進度
+      console.log(`FBX 加載進度: ${(xhr.loaded / xhr.total) * 100}%`);
+    },
+    (error) => {
+      // 錯誤處理
+      console.error("加載 FBX 時發生錯誤", error);
+    }
+  );
 
-  character = new THREE.Mesh(characterGeometry, characterMaterials);
-  character.position.y = 1;
-  scene.add(character);
+  // const characterGeometry = new THREE.BoxGeometry(1, 2, 1);
+  // const characterMaterials = [
+  //   new THREE.MeshBasicMaterial({ color: 0x00ffff }),
+  //   new THREE.MeshBasicMaterial({ color: 0x00ffff }),
+  //   new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+  //   new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+  //   new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+  //   new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+  // ];
+
+  // character = new THREE.Mesh(characterGeometry, characterMaterials);
+  // character.position.y = 1;
+  // scene.add(character);
 }
 
 function initializeInteraction() {
