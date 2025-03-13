@@ -7,6 +7,10 @@ import nipplejs from "nipplejs";
 const CAMERA_OFFSET = new THREE.Vector3(0, 5, -10); // 攝影機相對角色的偏移
 const OBSTACLE_SIZE = 2; // 障礙物尺寸
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 
 let joystickLeftInput = new THREE.Vector2(); // 儲存左搖桿的輸入
 let joystickRightInput = 0; // 儲存右搖桿的水平旋轉輸入
@@ -52,41 +56,80 @@ function init() {
 }
 
 function initializeFbx() {
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 環境光
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // 環境光
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
   directionalLight.position.set(10, 10, 10);
   directionalLight.castShadow = true; // 如果需要陰影
   scene.add(directionalLight);
 
-  const loader = new FBXLoader();
+  const loader = new GLTFLoader();
   loader.load(
-    "/bg.fbx", // 替換為您的模型路徑
-    (fbx) => {
-      // 設置模型大小和位置
-      fbx.scale.set(0.5, 0.5, 0.5); // 調整縮放（視模型而定）
-      fbx.position.set(0, 0, 0); // 起始位置
-      fbx.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          // 啟用模型的陰影
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-
-      // 將模型添加到場景
-      scene.add(fbx);
+    "/models/model.glb",
+    (gltf) => {
+      const model = gltf.scene;
+      model.scale.set(0.5, 0.5, 0.5); // 設定縮放大小
+      scene.add(model);
     },
     (xhr) => {
-      // 加載進度
-      console.log(`FBX 加載進度: ${(xhr.loaded / xhr.total) * 100}%`);
+      console.log(`載入進度：${(xhr.loaded / xhr.total) * 100}%`);
     },
     (error) => {
-      // 錯誤處理
-      console.error("加載 FBX 時發生錯誤", error);
+      console.error("GLB 載入錯誤", error);
     }
   );
+
+  // const mtlLoader = new MTLLoader();
+  // mtlLoader.load("models/BG.mtl", (materials) => {
+  //   materials.preload(); // 預先載入材質
+
+  //   // 載入 OBJ 模型
+  //   const objLoader = new OBJLoader();
+  //   objLoader.setMaterials(materials); // 設定 MTL 材質
+  //   objLoader.load(
+  //     "models/BG.obj",
+  //     (object) => {
+  //       object.scale.set(0.5, 0.5, 0.5); // 設定縮放大小
+
+  //       scene.add(object);
+  //     },
+  //     (xhr) => {
+  //       console.log(`載入進度：${(xhr.loaded / xhr.total) * 100}%`);
+  //     },
+  //     (error) => {
+  //       console.error("OBJ 載入錯誤", error);
+  //     }
+  //   );
+  // });
+
+  // const loader = new FBXLoader();
+  // loader.load(
+  //   "/bg.fbx", // 替換為您的模型路徑
+  //   (fbx) => {
+  //     // 設置模型大小和位置
+  //     fbx.scale.set(0.5, 0.5, 0.5); // 調整縮放（視模型而定）
+  //     fbx.position.set(0, 0, 0); // 起始位置
+  //     fbx.traverse((child) => {
+  //       if ((child as THREE.Mesh).isMesh) {
+  //         // 啟用模型的陰影
+  //         child.castShadow = true;
+  //         child.receiveShadow = true;
+  //       }
+  //     });
+
+  //     // 將模型添加到場景
+  //     scene.add(fbx);
+  //   },
+  //   (xhr) => {
+  //     // 加載進度
+  //     console.log(`FBX 加載進度: ${(xhr.loaded / xhr.total) * 100}%`);
+  //   },
+  //   (error) => {
+  //     // 錯誤處理
+  //     console.error("加載 FBX 時發生錯誤", error);
+  //   }
+  // );
 }
 function initializeScene() {
   scene = new THREE.Scene();
@@ -133,6 +176,24 @@ function initializeGround() {
 }
 
 function initializeCharacter() {
+  // const loader = new GLTFLoader();
+  // loader.load(
+  //   "/chair.glb",
+  //   (gltf) => {
+  //     const model = gltf.scene;
+  //     model.scale.set(10, 10, 10); // 設定縮放大小
+  //     scene.add(model);
+  //     console.log(model);
+  //     model.children[0].rotation.y += 10;
+  //     character = model;
+  //   },
+  //   (xhr) => {
+  //     console.log(`載入進度：${(xhr.loaded / xhr.total) * 100}%`);
+  //   },
+  //   (error) => {
+  //     console.error("GLB 載入錯誤", error);
+  //   }
+  // );
   const loader = new FBXLoader();
   loader.load(
     "/man.fbx", // 替換為您的模型路徑
