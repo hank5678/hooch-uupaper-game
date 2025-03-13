@@ -9,9 +9,6 @@ const OBSTACLE_SIZE = 2; // 障礙物尺寸
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
-import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
-
 let joystickLeftInput = new THREE.Vector2(); // 儲存左搖桿的輸入
 let joystickRightInput = 0; // 儲存右搖桿的水平旋轉輸入
 
