@@ -63,7 +63,7 @@ function initializeFbx() {
 
   const loader = new GLTFLoader();
   loader.load(
-    "/models/model.glb",
+    "/models/model2.glb",
     (gltf) => {
       const model = gltf.scene;
       model.scale.set(0.5, 0.5, 0.5); // 設定縮放大小
