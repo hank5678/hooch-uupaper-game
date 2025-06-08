@@ -53,13 +53,18 @@ function init() {
 }
 
 function initializeFbx() {
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // 環境光
-  scene.add(ambientLight);
+  // const ambientLight = new THREE.AmbientLight(0xff0000, 1.5); // 環境光
+  // scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-  directionalLight.position.set(10, 10, 10);
+  directionalLight.position.set(10, 5, 10);
   directionalLight.castShadow = true; // 如果需要陰影
   scene.add(directionalLight);
+
+  const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2);
+  directionalLight2.position.set(-10, 5, -10);
+  directionalLight2.castShadow = true; // 如果需要陰影
+  scene.add(directionalLight2);
 
   const loader = new GLTFLoader();
   loader.load(
